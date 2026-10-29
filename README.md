@@ -14,7 +14,9 @@ Feito com **HTML5, CSS3, JavaScript puro e Canvas 2D**. Sem backend, sem banco d
 - **Som:** botão de som no menu e no cabeçalho. A preferência fica salva no navegador.
 - **Objetivo:** cada humano vale **1 ponto**. Humanos perdidos não tiram pontos. Outro titã encerra a partida imediatamente.
 
-A velocidade e a frequência das ondas aumentam gradualmente com a pontuação. As ondas são espaçadas e sempre deixam uma rota de desvio possível. O recorde é salvo automaticamente no `localStorage` do navegador.
+A velocidade dos itens que caem aumenta gradualmente com a pontuação **e também com o tempo de partida** (mesmo se você não pontuar). A frequência das ondas aumenta com a pontuação. As ondas são espaçadas e sempre deixam uma rota de desvio possível. O recorde é salvo automaticamente no `localStorage` do navegador.
+
+O link do logo/cabeçalho abre o jogo em uma **nova aba** (`target="_blank"`). Observação: um site não consegue forçar abas externas que apontam para ele a abrir em nova aba; isso depende de quem cria o link de origem.
 
 ## Executar localmente
 

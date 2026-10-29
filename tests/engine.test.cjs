@@ -118,15 +118,33 @@ test('difficulty increases gradually and remains bounded', () => {
   assert.ok(game.spawnInterval < initialInterval);
   assert.equal(game.level, 3);
   game.score = 100000;
-  assert.equal(game.fallSpeed, game.height * 0.53);
+  game.elapsed = 100000;
+  assert.equal(game.fallSpeed, game.height * 0.65);
   assert.equal(game.spawnInterval, 0.58);
   // Even the fastest waves leave more vertical space than a titan occupies.
   assert.ok(game.fallSpeed * game.spawnInterval * 0.94 > 150);
 });
 
+test('fall speed increases with elapsed time even when score stays zero', () => {
+  const game = new HungerEngine();
+  game.start();
+  const initial = game.fallSpeed;
+  game.elapsed = 30;
+  const after30 = game.fallSpeed;
+  assert.ok(after30 > initial);
+  game.elapsed = 150;
+  const after150 = game.fallSpeed;
+  assert.ok(after150 > after30);
+  assert.equal(after150, game.height * (0.255 + 0.12));
+  game.elapsed = 100000;
+  assert.equal(game.fallSpeed, after150, 'time boost must stay capped');
+  assert.equal(game.score, 0);
+});
+
 test('short landscape worlds preserve a fair absolute spawn gap at max speed', () => {
   const game = new HungerEngine({ width: 844, height: 360 });
   game.score = 100000;
+  game.elapsed = 100000;
   assert.ok(game.fallSpeed * game.spawnInterval * 0.94 > 150);
 });
 
