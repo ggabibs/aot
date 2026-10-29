@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#263e32">
+  <meta name="description" content="Um titã. Uma fome sem fim. Coma humanos, desvie dos outros titãs e bata seu recorde neste arcade original para celular e computador.">
+  <title>Attack of Hunger — Um titã. Uma fome sem fim.</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="./assets/fonts/barlow-condensed-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/nunito-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./game.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <svg class="svg-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-muted" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m17 9 5 6m0-6-5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 3h10v6a5 5 0 0 1-10 0Zm0 2H3v3a4 4 0 0 0 4 4m10-7h4v3a4 4 0 0 1-4 4m-5 2v6m-4 1h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-restart" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 10v10h5v-6h4v6h5V10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-swipe" viewBox="0 0 24 24"><path d="M8 12V6a2 2 0 0 1 4 0v6-2a2 2 0 0 1 4 0v2a2 2 0 0 1 4 0v4c0 4-3 6-6 6-2 0-4-1-5-3l-4-5a2 2 0 0 1 3-2ZM2 5h3M2 5l2-2M2 5l2 2m12-2h6m0 0-2-2m2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m14 2-9 12h6l-1 8 9-12h-6Z" fill="currentColor"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v6m0-10v.1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+      <symbol id="i-titan" viewBox="0 0 40 40"><path d="m8 15 1-9 6 3 5-7 5 7 7-3 1 10-2 13-11 8L9 29Z" fill="currentColor"/><path d="m12 18 6 2m4 0 6-2m-13 8h10l-2 4h-6Z" fill="none" stroke="#263e32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href="./index.html" data-action="menu" aria-label="Attack of Hunger — menu inicial">
+        <span class="brand-mark"><svg aria-hidden="true"><use href="#i-titan"/></svg></span>
+        <span>ATTACK <span class="brand-of">OF</span> HUNGER<span class="brand-dot">✦</span></span>
+      </a>
+      <div class="header-right"><span class="edition"><span></span> UM ARCADE ORIGINAL</span><button class="header-sound icon-button" data-action="sound" aria-label="Desativar som" aria-pressed="true"><svg aria-hidden="true"><use href="#i-sound"/></svg></button></div>
+    </header>
+
+    <main class="game-layout">
+      <aside class="intro-panel" aria-label="Sobre o jogo">
+        <div class="small-eyebrow"><span class="tiny-line"></span> ALÉM DA MURALHA</div>
+        <h2>A MURALHA<br>É SEU<br><span>BUFÊ.</span></h2>
+        <p class="intro-copy">Um titã. Uma fome sem fim.<br>E uma cidade inteira passando<br class="desktop-break"> bem na sua direção.</p>
+        <div class="food-chain">
+          <div class="food-rule"><span class="legend-art human-art"><canvas id="human-legend" width="100" height="112" aria-hidden="true"></canvas></span><div><span class="rule-label">HUMANOS</span><strong>O lanche. <em>+1</em></strong></div></div>
+          <div class="food-rule"><span class="legend-art titan-art"><canvas id="titan-legend" width="100" height="112" aria-hidden="true"></canvas></span><div><span class="rule-label">OUTROS TITÃS</span><strong>A indigestão. <em class="danger-text">Fim!</em></strong></div></div>
+        </div>
+        <div class="original-note"><svg aria-hidden="true"><use href="#i-bolt"/></svg><span>Arte original. Fome de outro tamanho.</span></div>
+      </aside>
+
+      <section class="game-stage" id="game-stage" aria-label="Attack of Hunger — área do jogo" tabindex="0">
+        <canvas id="game-canvas" aria-hidden="true">Seu navegador precisa oferecer suporte ao Canvas 2D para jogar Attack of Hunger.</canvas>
+        <div class="stage-vignette" aria-hidden="true"></div>
+
+        <div class="game-hud" id="game-hud" hidden>
+          <div class="hud-stats"><div class="score-box"><span>HUMANOS</span><strong id="current-score">0</strong></div><div class="best-box"><svg aria-hidden="true"><use href="#i-trophy"/></svg><div><span>RECORDE</span><strong data-best>0</strong></div></div></div>
+          <button class="pause-button icon-button" data-action="pause" aria-label="Pausar partida"><svg aria-hidden="true"><use href="#i-pause"/></svg></button>
+          <div class="level-tag"><span class="level-dot"></span> MURALHA <span id="current-level">01</span></div>
+        </div>
+
+        <div class="play-controls" id="play-controls" hidden>
+          <button class="direction-button" id="move-left" aria-label="Mover para a esquerda"><svg aria-hidden="true" class="flip"><use href="#i-arrow"/></svg></button>
+          <span class="drag-hint" id="drag-hint"><svg aria-hidden="true"><use href="#i-swipe"/></svg> Arraste para mover</span>
+          <button class="direction-button" id="move-right" aria-label="Mover para a direita"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </div>
+
+        <div class="screen menu-screen" id="menu-screen">
+          <div class="menu-heading">
+            <span class="game-eyebrow">PEQUENOS HUMANOS. GRANDE FOME.</span>
+            <h1><span class="title-attack">ATTACK</span><span class="title-of"><i></i> OF <i></i></span><span class="title-hunger">HUNGER</span></h1>
+            <p>Coma humanos. Não coma a concorrência.</p>
+          </div>
+          <div class="menu-record"><svg aria-hidden="true"><use href="#i-trophy"/></svg> SEU RECORDE <strong data-best>0</strong></div>
+          <div class="menu-actions">
+            <button class="button button-primary play-button" data-action="play"><svg aria-hidden="true"><use href="#i-play"/></svg> JOGAR <svg class="button-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <button class="button button-secondary" data-action="help"><svg aria-hidden="true"><use href="#i-info"/></svg> COMO JOGAR</button>
+            <button class="menu-sound" data-action="sound" aria-pressed="true"><svg aria-hidden="true"><use href="#i-sound"/></svg><span data-sound-label>Som ativado</span><span class="sound-switch" aria-hidden="true"><i></i></span></button>
+          </div>
+        </div>
+
+        <div class="screen modal-screen" id="help-screen" hidden>
+          <section class="dialog help-dialog" role="dialog" aria-modal="true" aria-labelledby="help-title">
+            <button class="dialog-close icon-button" data-action="close-help" aria-label="Fechar instruções"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+            <span class="dialog-eyebrow">MANUAL DE SOBREVIVÊNCIA</span>
+            <h2 id="help-title">SIGA SEU<br><span>INSTINTO.</span></h2>
+            <div class="help-rules"><div><span class="help-number">01</span><p><strong>Humano na mira.</strong>Encoste nos pequenos exploradores. Cada um vale <b>1 ponto</b>.</p></div><div><span class="help-number danger-number">02</span><p><strong>Titã? Passa longe!</strong>Os grandões ruivos são proibidos. Comeu um? <b>Fim de jogo.</b></p></div><div><span class="help-number">03</span><p><strong>A fome só aumenta.</strong>Quanto mais você come, mais rápida a cidade fica. Bata seu recorde!</p></div></div>
+            <div class="help-controls"><svg aria-hidden="true"><use href="#i-swipe"/></svg><p><strong>Um dedo. Só isso.</strong>Arraste na horizontal ou use os botões.<br>No PC: mouse ou <kbd>←</kbd> <kbd>→</kbd>. <kbd>P</kbd> para pausar.</p></div>
+            <button class="button button-primary" data-action="close-help">ENTENDI. BORA COMER! <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          </section>
+        </div>
+
+        <div class="screen modal-screen" id="pause-screen" hidden>
+          <section class="dialog pause-dialog" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+            <span class="dialog-symbol"><svg aria-hidden="true"><use href="#i-pause"/></svg></span>
+            <span class="dialog-eyebrow">ATÉ TITÃ FAZ UMA PAUSA</span>
+            <h2 id="pause-title">SEM<br><span>PRESSA.</span></h2>
+            <p id="pause-reason">Seu lanche continua bem aqui.</p>
+            <button class="button button-primary" data-action="resume"><svg aria-hidden="true"><use href="#i-play"/></svg> CONTINUAR</button>
+            <button class="button button-secondary" data-action="restart"><svg aria-hidden="true"><use href="#i-restart"/></svg> RECOMEÇAR</button>
+            <button class="text-button" data-action="menu"><svg aria-hidden="true"><use href="#i-home"/></svg> MENU INICIAL</button>
+          </section>
+        </div>
+
+        <div class="screen modal-screen defeat-screen" id="gameover-screen" hidden>
+          <section class="dialog defeat-dialog" role="dialog" aria-modal="true" aria-labelledby="defeat-title">
+            <span class="defeat-stamp"><svg aria-hidden="true"><use href="#i-titan"/></svg><span>×</span></span>
+            <span class="dialog-eyebrow">ISSO NÃO ESTAVA NO CARDÁPIO</span>
+            <h2 id="defeat-title">VOCÊ COMEU<br><span>OUTRO TITÃ!</span></h2>
+            <p>Tem gostos que não se repetem.</p>
+            <div class="result-stats"><div><span>VOCÊ COMEU</span><strong id="final-score">0</strong><small>humanos</small></div><div><span><svg aria-hidden="true"><use href="#i-trophy"/></svg> SEU RECORDE</span><strong data-best>0</strong><small>humanos</small></div></div>
+            <div class="new-record" id="new-record" hidden><svg aria-hidden="true"><use href="#i-bolt"/></svg> NOVO RECORDE. QUE FOME!</div>
+            <button class="button button-primary" data-action="restart"><svg aria-hidden="true"><use href="#i-restart"/></svg> JOGAR NOVAMENTE</button>
+            <button class="button button-secondary" data-action="menu"><svg aria-hidden="true"><use href="#i-home"/></svg> MENU INICIAL</button>
+          </section>
+        </div>
+        <div class="stage-flash" id="stage-flash" aria-hidden="true"></div>
+        <noscript><div class="noscript-message">Ative o JavaScript do navegador para jogar Attack of Hunger.</div></noscript>
+      </section>
+
+      <aside class="guide-panel" aria-label="Controles e dica">
+        <div class="guide-top"><span class="small-eyebrow">FÁCIL DE JOGAR</span><svg aria-hidden="true"><use href="#i-swipe"/></svg><h2>UM DEDO.<br>SÓ ISSO.</h2><p>Deslize para os lados.<br>Seu titã acompanha o ritmo.</p><div class="keyboard-guide"><kbd>←</kbd><kbd>→</kbd><span>Ou use o teclado</span></div></div>
+        <div class="tip-card"><span class="tip-icon"><svg aria-hidden="true"><use href="#i-bolt"/></svg></span><span class="small-eyebrow">DICA DE TITÃ</span><p>Não é sobre comer tudo.<br>É sobre saber<br><strong>o que deixar passar.</strong></p><div class="tip-bottom"><span></span> A FOME AUMENTA. O DESAFIO TAMBÉM.</div></div>
+        <div class="save-note"><span class="save-dot"></span> Seu recorde fica salvo neste navegador.</div>
+      </aside>
+    </main>
+
+    <footer class="site-footer"><span>FEITO PARA JOGAR. NÃO PARA COMER.</span><span>INSPIRADO EM UM UNIVERSO DE TITÃS <i>•</i> ARTE 100% ORIGINAL</span><span>SEM DOWNLOAD. SÓ FOME. <svg aria-hidden="true"><use href="#i-bolt"/></svg></span></footer>
+  </div>
+  <p class="sr-only" id="announcer" role="status" aria-live="polite" aria-atomic="true"></p>
+</body>
+</html>
