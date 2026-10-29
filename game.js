@@ -50,12 +50,19 @@
 
     get mouthY() { return this.height - 103; }
     get level() { return 1 + Math.floor(this.score / 10); }
+    get timeSpeedBoost() {
+      // Speed ramps up with survived time even if the player scores nothing.
+      // Full time bonus is reached after 150 seconds and then stays capped.
+      return Math.min(Math.max(this.elapsed, 0) / 150, 1) * 0.12;
+    }
     get fallSpeed() {
-      return this.height * (0.255 + Math.min(this.score, 100) * 0.00275);
+      const scoreBoost = Math.min(this.score, 100) * 0.00275;
+      return this.height * Math.min(0.65, 0.255 + scoreBoost + this.timeSpeedBoost);
     }
     get spawnInterval() {
       // In short landscape worlds, keep a minimum absolute vertical gap as well.
-      const fairnessFloor = Math.max(0.58, 160 / (this.height * 0.53));
+      // Use the maximum possible fall speed (score + time) for fairness.
+      const fairnessFloor = Math.max(0.58, 160 / (this.height * 0.65));
       return Math.max(fairnessFloor, 1.06 - this.score * 0.0065);
     }
     get laneCount() { return clamp(Math.floor((this.width - 72) / 72), 4, 10); }
