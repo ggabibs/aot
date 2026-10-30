@@ -9,8 +9,10 @@
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="./assets/fonts/barlow-condensed-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="./assets/fonts/nunito-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/sprites.png" as="image">
   <link rel="stylesheet" href="./style.css">
   <script src="./game.js" defer></script>
+  <script src="./assets/sprites.js" defer></script>
   <script src="./script.js" defer></script>
 </head>
 <body>
@@ -50,7 +52,7 @@
           <div class="food-rule"><span class="legend-art human-art"><canvas id="human-legend" width="100" height="112" aria-hidden="true"></canvas></span><div><span class="rule-label">HUMANOS</span><strong>O lanche. <em>+1</em></strong></div></div>
           <div class="food-rule"><span class="legend-art titan-art"><canvas id="titan-legend" width="100" height="112" aria-hidden="true"></canvas></span><div><span class="rule-label">OUTROS TITÃS</span><strong>A indigestão. <em class="danger-text">Fim!</em></strong></div></div>
         </div>
-        <div class="original-note"><svg aria-hidden="true"><use href="#i-bolt"/></svg><span>Arte original. Fome de outro tamanho.</span></div>
+        <div class="original-note"><svg aria-hidden="true"><use href="#i-bolt"/></svg><span>Sprites em alta resolução. Fome de outro tamanho.</span></div>
       </aside>
 
       <section class="game-stage" id="game-stage" aria-label="Attack of Hunger — área do jogo" tabindex="0">
@@ -88,7 +90,7 @@
             <button class="dialog-close icon-button" data-action="close-help" aria-label="Fechar instruções"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
             <span class="dialog-eyebrow">MANUAL DE SOBREVIVÊNCIA</span>
             <h2 id="help-title">SIGA SEU<br><span>INSTINTO.</span></h2>
-            <div class="help-rules"><div><span class="help-number">01</span><p><strong>Humano na mira.</strong>Encoste nos pequenos exploradores. Cada um vale <b>1 ponto</b>.</p></div><div><span class="help-number danger-number">02</span><p><strong>Titã? Passa longe!</strong>Os grandões ruivos são proibidos. Comeu um? <b>Fim de jogo.</b></p></div><div><span class="help-number">03</span><p><strong>A fome só aumenta.</strong>Com o tempo e a pontuação, a cidade fica mais rápida. Bata seu recorde!</p></div></div>
+            <div class="help-rules"><div><span class="help-number">01</span><p><strong>Humano na mira.</strong>Encoste nos pequenos exploradores. Cada um vale <b>1 ponto</b>.</p></div><div><span class="help-number danger-number">02</span><p><strong>Titã? Passa longe!</strong>O Bestial e o Blindado são proibidos. Comeu um? <b>Fim de jogo.</b></p></div><div><span class="help-number">03</span><p><strong>A fome só aumenta.</strong>Com o tempo e a pontuação, a cidade fica mais rápida. Bata seu recorde!</p></div></div>
             <div class="help-controls"><svg aria-hidden="true"><use href="#i-swipe"/></svg><p><strong>Um dedo. Só isso.</strong>Arraste na horizontal ou use os botões.<br>No PC: mouse ou <kbd>←</kbd> <kbd>→</kbd>. <kbd>P</kbd> para pausar.</p></div>
             <button class="button button-primary" data-action="close-help">ENTENDI. BORA COMER! <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
           </section>
@@ -129,7 +131,7 @@
       </aside>
     </main>
 
-    <footer class="site-footer"><span>FEITO PARA JOGAR. NÃO PARA COMER.</span><span>INSPIRADO EM UM UNIVERSO DE TITÃS <i>•</i> ARTE 100% ORIGINAL</span><span>SEM DOWNLOAD. SÓ FOME. <svg aria-hidden="true"><use href="#i-bolt"/></svg></span></footer>
+    <footer class="site-footer"><span>FEITO PARA JOGAR. NÃO PARA COMER.</span><span>INSPIRADO EM UM UNIVERSO DE TITÃS <i>•</i> SPRITES EM ALTA RESOLUÇÃO</span><span>SEM DOWNLOAD. SÓ FOME. <svg aria-hidden="true"><use href="#i-bolt"/></svg></span></footer>
   </div>
   <p class="sr-only" id="announcer" role="status" aria-live="polite" aria-atomic="true"></p>
 </body>

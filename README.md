@@ -2,7 +2,7 @@
 
 Um arcade 2D original, inspirado na ideia de “comida que cai” do minigame do Pou e no universo de titãs e muralhas. **Coma humanos para marcar pontos. Coma outro titã e a partida acaba na hora.**
 
-Feito com **HTML5, CSS3, JavaScript puro e Canvas 2D**. Sem backend, sem banco de dados, sem serviços pagos, sem frameworks e sem assets oficiais do anime. Toda a arte do jogo é desenhada por código, e os efeitos sonoros são sintetizados com Web Audio.
+Feito com **HTML5, CSS3, JavaScript puro e Canvas 2D**. Sem backend, sem banco de dados, sem serviços pagos e sem frameworks. O cenário, a UI e os efeitos sonoros são gerados por código; os personagens usam os **sprites fornecidos pelo usuário** em um atlas local.
 
 > Projeto de fã, não oficial.
 
@@ -13,6 +13,7 @@ Feito com **HTML5, CSS3, JavaScript puro e Canvas 2D**. Sem backend, sem banco d
 - **Pausar:** botão de pausa, `P` ou `Esc`. Com o foco na área do jogo, `Espaço` também pausa.
 - **Som:** botão de som no menu e no cabeçalho. A preferência fica salva no navegador.
 - **Objetivo:** cada humano vale **1 ponto**. Humanos perdidos não tiram pontos. Outro titã encerra a partida imediatamente.
+- **Elenco:** o titã de olhos verdes é o jogador; Bestial e Blindado são rivais; há 7 variações de humanos sorteadas como alvos.
 
 A velocidade dos itens que caem aumenta gradualmente com a pontuação **e também com o tempo de partida** (mesmo se você não pontuar). A frequência das ondas aumenta com a pontuação. As ondas são espaçadas e sempre deixam uma rota de desvio possível. O recorde é salvo automaticamente no `localStorage` do navegador.
 
@@ -76,12 +77,15 @@ Todos os caminhos de assets/scripts são **relativos** (`./...`), então o jogo 
 ├── index.html              # Telas, HUD, diálogos e ícones SVG inline
 ├── style.css               # Layout responsivo, tema e animações de UI
 ├── game.js                 # Regras puras: ondas, colisão contínua, pausa, pontuação
-├── script.js               # Renderização Canvas, arte original, áudio, input e telas
+├── script.js               # Renderização Canvas, sprites, áudio, input e telas
 ├── assets/
 │   ├── favicon.svg         # Ícone original
+│   ├── sprites.png         # Atlas dos personagens fornecidos pelo usuário
+│   ├── sprites.js          # Metadados dos frames do atlas
 │   └── fonts/              # Fontes locais + licenças OFL
 ├── tests/
-│   └── engine.test.cjs     # Testes automatizados das regras (Node.js)
+│   ├── engine.test.cjs     # Testes automatizados das regras (Node.js)
+│   └── sprites.test.cjs    # Testes do atlas/metadados dos sprites
 ├── .nojekyll               # Compatibilidade com GitHub Pages
 ├── LICENSE                 # MIT
 └── README.md
@@ -92,7 +96,7 @@ Todos os caminhos de assets/scripts são **relativos** (`./...`), então o jogo 
 As regras do jogo são independentes do DOM e podem ser testadas com o test runner nativo do Node.js 18+:
 
 ```bash
-node --test tests/engine.test.cjs
+node --test tests/*.test.cjs
 ```
 
 A suíte cobre pontuação, derrota imediata, colisão contínua, quase-acidentes, pausa/retomada, limites de movimento, dificuldade progressiva, redimensionamento, deltas inválidos, 100 reinícios e sessões longas com seeds determinísticas para verificar espaçamento justo e memória limitada.
@@ -104,7 +108,7 @@ Durante o desenvolvimento também foi validado em Chromium com simulação mobil
 - **Cores e tipografia:** variáveis CSS em `:root` no `style.css`.
 - **Velocidade/dificuldade:** getters `fallSpeed`, `spawnInterval` e `level` em `game.js`.
 - **Probabilidade de titãs e espaçamento:** método `spawn()` em `game.js`.
-- **Arte dos personagens:** funções `drawPlayer`, `drawHuman` e `drawEnemy` em `script.js`.
+- **Arte dos personagens:** atlas `assets/sprites.png` + frames em `assets/sprites.js`; wrappers `drawPlayer`, `drawHuman` e `drawEnemy` em `script.js`.
 - **Cenário:** `Scenery.paintBackground()` em `script.js` (cacheado em um canvas offscreen e redesenhado apenas no resize).
 - **Sons:** `SoundBank.play()` em `script.js`.
 - **Textos/telas:** `index.html`.
@@ -122,6 +126,6 @@ Durante o desenvolvimento também foi validado em Chromium com simulação mobil
 
 ## Licenças
 
-- Código e arte original: [MIT](LICENSE).
+- Código, cenário procedural, UI e ícone: [MIT](LICENSE).
+- Sprites de personagens: fornecidos pelo usuário; **não** são relicenciados pelo MIT do código. Verifique os direitos antes de distribuir.
 - Fontes **Barlow Condensed** e **Nunito Sans**: SIL Open Font License 1.1. Textos completos em `assets/fonts/*-LICENSE.txt`.
-- Nenhuma imagem oficial de anime foi utilizada.

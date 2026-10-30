@@ -13,6 +13,11 @@
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   const FIXED_STEP = 1 / 120;
 
+  // Shared player metrics keep the rendered mouth and collision point aligned.
+  const PLAYER_HEIGHT = 180;
+  const PLAYER_FEET_OFFSET = 22;
+  const PLAYER_MOUTH_FROM_TOP = 24;
+
   // Swept collision in ellipse space: a fast target cannot skip the player.
   function segmentHitsEllipse(ax, ay, bx, by, rx, ry) {
     const sx = ax / rx;
@@ -48,7 +53,7 @@
       this.serial = 0;
     }
 
-    get mouthY() { return this.height - 103; }
+    get mouthY() { return this.height - PLAYER_FEET_OFFSET - PLAYER_HEIGHT + PLAYER_MOUTH_FROM_TOP; }
     get level() { return 1 + Math.floor(this.score / 10); }
     get timeSpeedBoost() {
       // Speed ramps up with survived time even if the player scores nothing.
@@ -127,7 +132,8 @@
     }
 
     laneX(lane) {
-      const margin = 48;
+      // Wider margin keeps the Beast titan's long arms inside the playfield.
+      const margin = 60;
       return margin + lane * (this.width - margin * 2) / (this.laneCount - 1);
     }
 
@@ -146,7 +152,8 @@
       entity.kind = kind;
       entity.x = this.laneX(clamp(lane, 0, this.laneCount - 1));
       entity.y = -48;
-      entity.variant = Math.floor(this.random() * 3);
+      // Seven human sprites; two rival titans (Beast / Armored).
+      entity.variant = clamp(Math.floor(this.random() * (kind === 'human' ? 7 : 2)), 0, kind === 'human' ? 6 : 1);
       entity.phase = this.random() * Math.PI * 2;
       this.entities.push(entity);
       this.lastLane = lane;
@@ -184,10 +191,13 @@
         const oldY = entity.y;
         entity.y += this.fallSpeed * dt;
         const isTitan = entity.kind === 'titan';
+        // Hitboxes follow the new sprite torsos, not decorative swords/long arms.
+        const colliderX = isTitan ? (entity.variant === 1 ? 44 : 54) : 38;
+        const colliderY = isTitan ? 68 : 50;
         const hit = segmentHitsEllipse(
           entity.x - previousX, oldY - this.mouthY,
           entity.x - this.player.x, entity.y - this.mouthY,
-          isTitan ? 51 : 39, isTitan ? 57 : 43
+          colliderX, colliderY
         );
         if (hit) {
           if (isTitan) {
@@ -222,5 +232,5 @@
     }
   }
 
-  return { HungerEngine, segmentHitsEllipse, clamp };
+  return { HungerEngine, segmentHitsEllipse, clamp, PLAYER_HEIGHT, PLAYER_FEET_OFFSET, PLAYER_MOUTH_FROM_TOP };
 });
