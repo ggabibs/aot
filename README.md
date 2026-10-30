@@ -4,7 +4,7 @@ Um arcade 2D original, inspirado na ideia de “comida que cai” do minigame do
 
 Feito com **HTML5, CSS3, JavaScript puro e Canvas 2D**. Sem backend, sem banco de dados, sem serviços pagos e sem frameworks. O cenário, a UI e os efeitos sonoros são gerados por código; os personagens usam os **sprites fornecidos pelo usuário** em um atlas local.
 
-> Projeto de fã, não oficial. Os sprites de personagens foram fornecidos pelo usuário e não são cobertos pela licença MIT do código. Confirme os direitos de uso antes de publicar.
+> Projeto de fã, não oficial.
 
 ## Jogar
 
