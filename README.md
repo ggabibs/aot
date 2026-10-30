@@ -4,7 +4,7 @@ Um arcade 2D original, inspirado na ideia de “comida que cai” do minigame do
 
 Feito com **HTML5, CSS3, JavaScript puro e Canvas 2D**. Sem backend, sem banco de dados, sem serviços pagos, sem frameworks e sem assets oficiais do anime. Toda a arte do jogo é desenhada por código, e os efeitos sonoros são sintetizados com Web Audio.
 
-> Projeto de fã, não oficial. Não utiliza imagens, logos, personagens nomeados nem músicas oficiais de *Attack on Titan*.
+> Projeto de fã, não oficial.
 
 ## Jogar
 
