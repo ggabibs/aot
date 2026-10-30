@@ -109,6 +109,26 @@ test('movement is responsive, bounded, and ignores invalid coordinates', () => {
   assert.equal(clamp(9, 0, 5), 5);
 });
 
+test('spawn uses all seven human sprites and both rival titan sprites', () => {
+  const game = new HungerEngine({ random: seeded(42) });
+  game.start();
+  const humans = new Set();
+  const titans = new Set();
+  for (let i = 0; i < 400; i++) {
+    game.spawn();
+    const entity = game.entities[game.entities.length - 1];
+    if (entity.kind === 'human') {
+      assert.ok(entity.variant >= 0 && entity.variant <= 6);
+      humans.add(entity.variant);
+    } else {
+      assert.ok(entity.variant >= 0 && entity.variant <= 1);
+      titans.add(entity.variant);
+    }
+  }
+  assert.equal(humans.size, 7);
+  assert.equal(titans.size, 2);
+});
+
 test('difficulty increases gradually and remains bounded', () => {
   const game = new HungerEngine();
   const initialSpeed = game.fallSpeed;
@@ -201,7 +221,11 @@ test('long seeded sessions keep fair spacing, no target overlap and bounded memo
         let bestClearance = -Infinity;
         for (let x = 48; x <= game.width - 48; x += 16) {
           const clearance = Math.min(...threats.map(e => Math.abs(e.x - x))) - Math.abs(game.player.x - x) * 0.05;
-          if (clearance > bestClearance) { bestClearance = clearance; safeX = x; }
+          const crossesActiveTitan = threats.some(e =>
+            Math.abs(e.y - game.mouthY) < 75 && (game.player.x - e.x) * (x - e.x) < 0
+          );
+          const score = clearance - (crossesActiveTitan ? 1000 : 0);
+          if (score > bestClearance) { bestClearance = score; safeX = x; }
         }
         game.setTarget(safeX);
       } else {

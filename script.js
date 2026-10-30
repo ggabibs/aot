@@ -1,5 +1,6 @@
-/* Attack of Hunger — original canvas art, sound synthesis and browser controls.
- * No network requests, frameworks, official artwork, or runtime dependencies.
+/* Attack of Hunger — sprite rendering, sound synthesis and browser controls.
+ * Character sprites are user-provided assets; scenery/UI are drawn in Canvas.
+ * No frameworks or runtime dependencies.
  */
 (function () {
   'use strict';
@@ -54,7 +55,69 @@
     };
   }
 
+  class SpriteBank {
+    constructor(manifest) {
+      this.frames = (manifest && manifest.frames) || {};
+      this.image = new Image();
+      this.ready = false;
+      this.failed = false;
+      this.onLoad = null;
+      if (manifest && manifest.src) {
+        this.image.onload = () => {
+          this.ready = true;
+          if (this.onLoad) this.onLoad();
+        };
+        this.image.onerror = () => {
+          this.failed = true;
+          console.error('[Attack of Hunger] Não foi possível carregar assets/sprites.png. Usando fallback visual.');
+        };
+        this.image.src = manifest.src;
+      }
+    }
+
+    frame(name) { return this.ready ? this.frames[name] : null; }
+
+    draw(ctx, name, x, y, width, height) {
+      const frame = this.frame(name);
+      if (!frame) return false;
+      ctx.drawImage(this.image, frame.x, frame.y, frame.w, frame.h, x, y, width, height);
+      return true;
+    }
+  }
+
+  const spriteBank = new SpriteBank(window.HungerSprites);
+
+  function drawTargetBadge(ctx, x, y, scale) {
+    ellipse(ctx, x, y, 8 * scale, 8 * scale, '#fff4d5', '#4e7147', 1.4 * scale);
+    line(ctx, [[x - 3 * scale, y], [x + 3 * scale, y]], '#42663d', 1.8 * scale);
+    line(ctx, [[x, y - 3 * scale], [x, y + 3 * scale]], '#42663d', 1.8 * scale);
+  }
+
+  function drawDangerBadge(ctx, x, y, scale) {
+    polygon(ctx, [[x, y - 9 * scale], [x + 9 * scale, y], [x, y + 9 * scale], [x - 9 * scale, y]], '#f4c18a', '#9c5438', 1.4 * scale);
+    line(ctx, [[x, y - 4 * scale], [x, y + 1 * scale]], '#8c482f', 2 * scale);
+    ellipse(ctx, x, y + 4 * scale, 1 * scale, 1 * scale, '#8c482f');
+  }
+
   function drawHuman(ctx, x, y, variant = 0, time = 0, scale = 1, badge = true) {
+    const index = ((Math.floor(variant) % 7) + 7) % 7;
+    const name = 'human_' + index;
+    const frame = spriteBank.frame(name);
+    if (frame) {
+      const height = 66 * scale;
+      const width = height * frame.w / frame.h;
+      ctx.save();
+      ctx.translate(x, y);
+      if (!reducedMotion.matches) ctx.rotate(Math.sin(time * 5) * 0.035);
+      spriteBank.draw(ctx, name, -width / 2, -height / 2, width, height);
+      ctx.restore();
+      if (badge) drawTargetBadge(ctx, x, y - height / 2 - 11 * scale, scale);
+      return;
+    }
+    drawHumanFallback(ctx, x, y, variant, time, scale, badge);
+  }
+
+  function drawHumanFallback(ctx, x, y, variant = 0, time = 0, scale = 1, badge = true) {
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(scale, scale);
@@ -95,7 +158,25 @@
     ctx.restore();
   }
 
-  function drawEnemy(ctx, x, y, time = 0, scale = 1, badge = true) {
+  function drawEnemy(ctx, x, y, time = 0, scale = 1, badge = true, variant = 0) {
+    const index = ((Math.floor(variant) % 2) + 2) % 2;
+    const name = index === 0 ? 'rival_beast' : 'rival_armored';
+    const frame = spriteBank.frame(name);
+    if (frame) {
+      const height = (index === 0 ? 100 : 104) * scale;
+      const width = height * frame.w / frame.h;
+      ctx.save();
+      ctx.translate(x, y);
+      if (!reducedMotion.matches) ctx.rotate(Math.sin(time * 4) * 0.04);
+      spriteBank.draw(ctx, name, -width / 2, -height / 2, width, height);
+      ctx.restore();
+      if (badge) drawDangerBadge(ctx, x, y - height / 2 - 15 * scale, scale);
+      return;
+    }
+    drawEnemyFallback(ctx, x, y, time, scale, badge);
+  }
+
+  function drawEnemyFallback(ctx, x, y, time = 0, scale = 1, badge = true) {
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(scale, scale);
@@ -144,6 +225,29 @@
   }
 
   function drawPlayer(ctx, x, feet, time, munch = 0, defeated = false, scale = 1, look = 0) {
+    const eating = munch > 0.03 && !defeated;
+    const name = eating ? 'player_eat' : 'player_idle';
+    const frame = spriteBank.frame(name);
+    if (frame) {
+      const chomp = munch > 0 ? Math.sin(munch / 0.25 * Math.PI) : 0;
+      const height = 160 * scale;
+      const width = height * frame.w / frame.h;
+      const bob = reducedMotion.matches ? 0 : Math.sin(time * 3.2) * 1.7;
+      ctx.save();
+      ctx.translate(x, feet);
+      ellipse(ctx, 0, 1, 36 * scale, 7 * scale, '#30482b25');
+      ctx.translate(0, bob);
+      if (defeated) ctx.rotate(-0.06);
+      else if (!reducedMotion.matches) ctx.rotate(look * 0.02);
+      ctx.scale(1 + chomp * 0.05, 1 - chomp * 0.035);
+      spriteBank.draw(ctx, name, -width / 2, -height, width, height);
+      ctx.restore();
+      return;
+    }
+    drawPlayerFallback(ctx, x, feet, time, munch, defeated, scale, look);
+  }
+
+  function drawPlayerFallback(ctx, x, feet, time, munch = 0, defeated = false, scale = 1, look = 0) {
     ctx.save();
     ctx.translate(x, feet);
     ctx.scale(scale, scale);
@@ -520,7 +624,7 @@
       } else {
         for (const entity of engine.entities) {
           if (entity.kind === 'human') drawHuman(ctx, entity.x, entity.y, entity.variant, ambientTime + entity.phase, 1);
-          else drawEnemy(ctx, entity.x, entity.y, ambientTime + entity.phase, 1);
+          else drawEnemy(ctx, entity.x, entity.y, ambientTime + entity.phase, 1, true, entity.variant);
         }
         const look = clamp((engine.player.targetX - engine.player.x) / 50, -1, 1);
         drawPlayer(ctx, engine.player.x, h - 22, ambientTime, engine.player.munch, engine.state === 'over', 1, look);
@@ -907,12 +1011,16 @@
       const ctx = legend.getContext('2d');
       ctx.clearRect(0, 0, legend.width, legend.height);
       ctx.save(); ctx.scale(2, 2);
-      if (kind === 'human') drawHuman(ctx, 25, 31, 0, 0, .8, false);
-      else drawEnemy(ctx, 25, 31, 0, .57, false);
+      if (kind === 'human') drawHuman(ctx, 25, 31, 0, 0, .72, false);
+      else drawEnemy(ctx, 25, 31, 0, .48, false, 0);
       ctx.restore();
     }
     paintLegend('human-legend', 'human');
     paintLegend('titan-legend', 'titan');
+    spriteBank.onLoad = function () {
+      paintLegend('human-legend', 'human');
+      paintLegend('titan-legend', 'titan');
+    };
 
     function frame(timestamp) {
       const dt = lastFrame ? Math.min((timestamp - lastFrame) / 1000, 0.05) : 0;
