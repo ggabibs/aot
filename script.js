@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  const { HungerEngine, clamp } = window.HungerGame;
+  const { HungerEngine, clamp, PLAYER_HEIGHT, PLAYER_FEET_OFFSET } = window.HungerGame;
   const TAU = Math.PI * 2;
   const INK = '#293d2d';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -80,6 +80,8 @@
     draw(ctx, name, x, y, width, height) {
       const frame = this.frame(name);
       if (!frame) return false;
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(this.image, frame.x, frame.y, frame.w, frame.h, x, y, width, height);
       return true;
     }
@@ -163,7 +165,7 @@
     const name = index === 0 ? 'rival_beast' : 'rival_armored';
     const frame = spriteBank.frame(name);
     if (frame) {
-      const height = (index === 0 ? 100 : 104) * scale;
+      const height = (index === 0 ? 116 : 120) * scale;
       const width = height * frame.w / frame.h;
       ctx.save();
       ctx.translate(x, y);
@@ -230,7 +232,7 @@
     const frame = spriteBank.frame(name);
     if (frame) {
       const chomp = munch > 0 ? Math.sin(munch / 0.25 * Math.PI) : 0;
-      const height = 160 * scale;
+      const height = PLAYER_HEIGHT * scale;
       const width = height * frame.w / frame.h;
       const bob = reducedMotion.matches ? 0 : Math.sin(time * 3.2) * 1.7;
       ctx.save();
@@ -604,7 +606,7 @@
       const ambientTime = reducedMotion.matches ? 0 : time;
       if (isMenu) {
         const feet = h - (h < 420 ? 20 : 187);
-        const playerScale = h < 420 ? .85 : clamp((h - 350) / 260, 1, 1.6);
+        const playerScale = h < 420 ? .85 : clamp((h - 350) / 300, .95, 1.3);
         const px = h < 420 ? w * .48 : w * .5;
         if (h >= 420) {
           drawHuman(ctx, w*.18, h*.57 + Math.sin(ambientTime*2)*5, 0, ambientTime, 1.05);
@@ -627,7 +629,7 @@
           else drawEnemy(ctx, entity.x, entity.y, ambientTime + entity.phase, 1, true, entity.variant);
         }
         const look = clamp((engine.player.targetX - engine.player.x) / 50, -1, 1);
-        drawPlayer(ctx, engine.player.x, h - 22, ambientTime, engine.player.munch, engine.state === 'over', 1, look);
+        drawPlayer(ctx, engine.player.x, h - PLAYER_FEET_OFFSET, ambientTime, engine.player.munch, engine.state === 'over', 1, look);
       }
       for (const p of this.particles) {
         if (!p.active) continue;

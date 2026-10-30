@@ -13,6 +13,11 @@
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   const FIXED_STEP = 1 / 120;
 
+  // Shared player metrics keep the rendered mouth and collision point aligned.
+  const PLAYER_HEIGHT = 180;
+  const PLAYER_FEET_OFFSET = 22;
+  const PLAYER_MOUTH_FROM_TOP = 24;
+
   // Swept collision in ellipse space: a fast target cannot skip the player.
   function segmentHitsEllipse(ax, ay, bx, by, rx, ry) {
     const sx = ax / rx;
@@ -48,7 +53,7 @@
       this.serial = 0;
     }
 
-    get mouthY() { return this.height - 158; }
+    get mouthY() { return this.height - PLAYER_FEET_OFFSET - PLAYER_HEIGHT + PLAYER_MOUTH_FROM_TOP; }
     get level() { return 1 + Math.floor(this.score / 10); }
     get timeSpeedBoost() {
       // Speed ramps up with survived time even if the player scores nothing.
@@ -227,5 +232,5 @@
     }
   }
 
-  return { HungerEngine, segmentHitsEllipse, clamp };
+  return { HungerEngine, segmentHitsEllipse, clamp, PLAYER_HEIGHT, PLAYER_FEET_OFFSET, PLAYER_MOUTH_FROM_TOP };
 });

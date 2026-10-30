@@ -15,6 +15,13 @@ test('sprite atlas manifest contains the full requested cast', () => {
   assert.equal(names.length, 11);
 });
 
+test('player idle and capture frames share the same alignment', () => {
+  const idle = manifest.frames.player_idle;
+  const eat = manifest.frames.player_eat;
+  assert.equal(eat.w, idle.w);
+  assert.equal(eat.h, idle.h);
+});
+
 test('every sprite frame stays inside the atlas bounds', () => {
   for (const [name, frame] of Object.entries(manifest.frames)) {
     assert.ok(frame.w > 0 && frame.h > 0, name);

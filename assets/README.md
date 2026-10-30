@@ -8,7 +8,9 @@
   - 7 variações de humanos.
 - `sprites.js` — metadados do atlas (nome, posição e tamanho de cada frame).
 
-Os sprites foram recortados da folha de referência em alta resolução. A versão transparente enviada posteriormente foi usada como guia de silhueta/alpha para limpar o recorte, enquanto a cor e os detalhes vieram do arquivo original de maior resolução. As bordas foram suavizadas, o halo escuro foi reduzido e um leve sharpen foi aplicado apenas no RGB. O resultado foi reunido em um atlas PNG com paleta compartilhada de 256 cores para reduzir o número de requisições e o tamanho do download.
+Os **titãs** usam os PNGs individuais transparentes enviados pelo usuário (jogador, Bestial e Blindado), preservando a resolução nativa e o alpha original. O frame de boca aberta do jogador foi adaptado a partir do PNG individual, alterando apenas a região da boca para manter o corpo idêntico ao idle.
+
+Os **humanos** continuam vindo da folha de referência em alta resolução, com recorte limpado e leve sharpen. Tudo foi reunido em um atlas PNG RGBA (sem paleta reduzida) para preservar os detalhes dos titãs.
 
 **Direitos:** os sprites de personagens foram fornecidos pelo usuário e não são cobertos pela licença MIT do código. Antes de publicar o jogo, confirme que você tem permissão para usar esses personagens/sprites. O código, o cenário procedural, a UI e o ícone continuam sob a licença do projeto.
 
