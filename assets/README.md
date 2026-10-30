@@ -8,7 +8,7 @@
   - 7 variações de humanos.
 - `sprites.js` — metadados do atlas (nome, posição e tamanho de cada frame).
 
-Os sprites foram recortados da folha de referência, tiveram o fundo preto removido e foram reunidos em um atlas PNG com paleta compartilhada para reduzir o número de requisições e o tamanho do download.
+Os sprites foram recortados da folha de referência em alta resolução. A versão transparente enviada posteriormente foi usada como guia de silhueta/alpha para limpar o recorte, enquanto a cor e os detalhes vieram do arquivo original de maior resolução. As bordas foram suavizadas, o halo escuro foi reduzido e um leve sharpen foi aplicado apenas no RGB. O resultado foi reunido em um atlas PNG com paleta compartilhada de 256 cores para reduzir o número de requisições e o tamanho do download.
 
 **Direitos:** os sprites de personagens foram fornecidos pelo usuário e não são cobertos pela licença MIT do código. Antes de publicar o jogo, confirme que você tem permissão para usar esses personagens/sprites. O código, o cenário procedural, a UI e o ícone continuam sob a licença do projeto.
 
